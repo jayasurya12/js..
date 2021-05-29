@@ -141,25 +141,32 @@ async function apicalls(){
          button.setAttribute("data-bs-toggle","modal");
          button.setAttribute("data-bs-target","#staticBackdrop");
          button.innerText="CheckWeather";
-         button.addEventListener("click",(event)=>{
-           event.preventDefault()
-           async function hi(){
-             try{
-               const apiColl=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data.latlng[0]}&lon=${data.latlng[1]}&appid=572dfa7c2665cce28fee4f24c7e9073b`)
-               const newApi=await apiColl.json()
-               const icon=newApi.weather[0].icon;
-                let icons=(`http://openweathermap.org/img/wn/${icon}@2x.png`);
-               const temp=newApi.main.temp;
-                const tempValue=(temp-273).toFixed(0);
-                CountryTemperature.innerText="Temperature :"+tempValue+" ℃";
-                console.log(tempValue);
-             }
-             catch(err){
-                  console.log(err);
-             }
-           }
-           hi();
-        })       
+         button.addEventListener("click",function(event){
+           event.preventDefault();
+           hi(data.latLng,data.name);
+         })    
+         function hi(latLng,names){
+          // event.preventDefault;
+          async function hi(latlng,names){
+            const hifi=latlng
+            try{
+              let latlng=hifi;
+              const apiColl=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data.latlng[0]}&lon=${data.latlng[1]}&appid=572dfa7c2665cce28fee4f24c7e9073b`)
+              const newApi=await apiColl.json()
+              const icon=newApi.weather[0].icon;
+               let icons=(`http://openweathermap.org/img/wn/${icon}@2x.png`);
+              const temp=newApi.main.temp;
+               const tempValue=(temp-273).toFixed(0);
+               CountryTemperature.innerText="Temperature :"+tempValue+" ℃";
+               console.log(tempValue);
+            }
+            catch(err){
+                 console.log(err);
+            }
+          
+          }
+        hi(latLng,names)
+         }     
         footer.appendChild(button);
          let modal=document.createElement("div");
          modal.setAttribute("class","modal fade")
@@ -201,12 +208,12 @@ async function apicalls(){
 
          let countryName=document.createElement("h5");
          countryName.setAttribute("class","countryName");
-         countryName.innerText="Country :"+data.name;
+         
          modalBody.appendChild(countryName);
          
          let CountryTemperature=document.createElement('span');
          CountryTemperature.setAttribute("class","badge text-dark my-auto")
-         
+         countryName.innerText="Country :"+data.name;
          modalBody.appendChild(CountryTemperature);
 
         // let temp=document.createElement('span',"badge text-dark my-auto");
